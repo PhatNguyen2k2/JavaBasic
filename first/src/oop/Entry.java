@@ -3,9 +3,9 @@ package oop;
 import java.util.Scanner;
 
 class Student{
-	String name;
-	int age;
-	Student(){
+	private String name;
+	private int age;
+	public Student(){
 		name = "";
 		age = 0;
 	}
