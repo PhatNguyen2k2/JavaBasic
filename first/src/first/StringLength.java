@@ -18,5 +18,6 @@ public class StringLength {
 			arr[i] = sc.next();
 		}
 		show(arr);
+		sc.close();
 	}
 }
