@@ -7,15 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-class Employee {
-	private String id;
-	private String name;
-	private String gender;
-	private int day;
-	private int month;
-	private int year;
-	private String address;
-	private int phone;
+class Employee extends EPerson{
 	private int working_hour;
 	private float bonus;
 	private float minus;
@@ -23,14 +15,7 @@ class Employee {
 	private float salary;
 	private String shifts;
 	public Employee(){
-		id = "";
-		name = "";
-		gender = "";
-		day = 0;
-		month = 0;
-		year = 0;
-		address = "";
-		phone = 0;
+		super();
 		working_hour = 0;
 		bonus = 0;
 		minus = 0;
@@ -39,15 +24,8 @@ class Employee {
 		shifts = "";
 	}
 	public void input() {
+		super.input();
 		Scanner sc = new Scanner(System.in);
-		id = sc.nextLine();
-		name = sc.nextLine();
-		gender = sc.nextLine();
-		address = sc.nextLine();
-		day = sc.nextInt();
-		month = sc.nextInt();
-		year = sc.nextInt();
-		phone = sc.nextInt();
 		working_hour = sc.nextInt();
 		bonus = sc.nextFloat();
 		minus = sc.nextFloat();
@@ -55,14 +33,6 @@ class Employee {
 		salary = sc.nextFloat();
 		shifts = sc.next();
 	}
-	public String getId() {return id;}
-	public String getName() {return name;}
-	public String getGender() {return gender;}
-	public int getDay() {return day;}
-	public int getMonth() {return month;}
-	public int getYear() {return year;}
-	public String getAddress() {return address;}
-	public int getPhone() {return phone;}
 	public int getWorking_hour() {return working_hour;}
 	public float getBonus() {return bonus;}
 	public float getMinus() {return minus;}
@@ -78,30 +48,40 @@ public class Conect2sql {
 			try {
 				cn = DriverManager.getConnection(url);
 				System.out.print("connect success\n");
-				Employee e = new Employee();
-				e.input();
+				int n;
+				Scanner sc = new Scanner(System.in);
+				System.out.print("Enter n: ");
+				n = sc.nextInt();
+				Employee[] e = new Employee[n];
+				for(int i = 0; i < n; i++) {
+					System.out.println("Enter info of employee " + i);
+					e[i] = new Employee();
+					e[i].input();
+				}
+				for(int i = 0; i < n; i++) {
 				String sql = "INSERT INTO EMPLOYEE VALUES"
 						+"(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				PreparedStatement st = cn.prepareStatement(sql);
-				st.setString(1, e.getId());
-				st.setString(2, e.getName());
-				st.setString(3, e.getGender());
-				st.setInt(4, e.getDay());
-				st.setInt(5, e.getMonth());
-				st.setInt(6, e.getYear());
-				st.setString(7, e.getAddress());
-				st.setInt(8, e.getPhone());
-				st.setInt(9, e.getWorking_hour());
-				st.setFloat(10, e.getBonus());
-				st.setFloat(11, e.getMinus());
-				st.setFloat(12, e.getCoefficients());
-				st.setFloat(13, e.getSalary());
-				st.setString(14, e.getShifts());
+				st.setString(1, e[i].getId());
+				st.setString(2, e[i].getName());
+				st.setString(3, e[i].getGender());
+				st.setInt(4, e[i].getDay());
+				st.setInt(5, e[i].getMonth());
+				st.setInt(6, e[i].getYear());
+				st.setString(7, e[i].getAddress());
+				st.setInt(8, e[i].getPhone());
+				st.setInt(9, e[i].getWorking_hour());
+				st.setFloat(10, e[i].getBonus());
+				st.setFloat(11, e[i].getMinus());
+				st.setFloat(12, e[i].getCoefficients());
+				st.setFloat(13, e[i].getSalary());
+				st.setString(14, e[i].getShifts());
 				int rows = st.executeUpdate();
 				if(rows > 0) {
-					System.out.print("row has been inserted");
-					cn.close();
+					System.out.print("row has been inserted\n");
 				}
+				}
+				cn.close();
 			} catch (SQLException e) {
 				System.out.print("oh no.");
 				e.printStackTrace();
