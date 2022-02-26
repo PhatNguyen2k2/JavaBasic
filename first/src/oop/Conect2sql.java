@@ -77,9 +77,9 @@ public class Conect2sql {
 				st.setFloat(13, e[i].getSalary());
 				st.setString(14, e[i].getShifts());
 				int rows = st.executeUpdate();
-				if(rows > 0) {
-					System.out.print("row has been inserted\n");
-				}
+					if(rows > 0) {
+						System.out.print("row has been inserted\n");
+					}
 				}
 				cn.close();
 			} catch (SQLException e) {
