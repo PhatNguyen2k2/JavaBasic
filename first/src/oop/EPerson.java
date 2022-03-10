@@ -10,7 +10,7 @@ public class EPerson {
 	private int month;
 	private int year;
 	private String address ;
-	private int phone;
+	private String phone;
 	public EPerson() {
 		id = "";
 		name = "";
@@ -19,7 +19,7 @@ public class EPerson {
 		month = 0;
 		year = 0;
 		address = "";
-		phone = 0;
+		phone = "";
 	}
 	public void input() {
 		Scanner sc = new Scanner(System.in);
@@ -30,7 +30,31 @@ public class EPerson {
 		day = sc.nextInt();
 		month = sc.nextInt();
 		year = sc.nextInt();
-		phone = sc.nextInt();
+		phone = sc.nextLine();
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public void setDay(int day) {
+		this.day = day;
+	}
+	public void setMonth(int month) {
+		this.month = month;
+	}
+	public void setYear(int year) {
+		this.year = year;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	public String getId() {return id;}
 	public String getName() {return name;}
@@ -39,5 +63,5 @@ public class EPerson {
 	public int getMonth() {return month;}
 	public int getYear() {return year;}
 	public String getAddress() {return address;}
-	public int getPhone() {return phone;}
+	public String getPhone() {return phone;}
 }
