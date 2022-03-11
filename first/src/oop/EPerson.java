@@ -64,4 +64,7 @@ public class EPerson {
 	public int getYear() {return year;}
 	public String getAddress() {return address;}
 	public String getPhone() {return phone;}
+	public void print() {
+		System.out.println("Id: "+id+", Name: "+name+", Gender: "+gender+", ("+day+"/"+month+"/"+year+"), Address: "+address+", Phone: "+phone);
+	}
 }

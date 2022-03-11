@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.Vector;
@@ -69,6 +70,10 @@ class Employee extends EPerson{
 	public float getSalary() {return salary;}
 	public float getExperience() {return experience;}
 	public String getPosition() {return position;}
+	public void print() {
+		super.print();
+		System.out.println("Working hour: "+working_hour+", Bonus: "+bonus+", Minus: "+minus+", Coefficients: "+coefficients+", Salary: "+salary+", Experience: "+experience+", Position: "+position);
+	}
 }
 class Employees{
 	private Vector<Employee>v;
@@ -143,6 +148,45 @@ class Employees{
 			e.printStackTrace();
 		}
 	}
+	public void print() {
+		for(int i = 0; i< v.size(); i++) {
+			System.out.println("-->Employee "+(i+1));
+			v.elementAt(i).print();
+		}
+	}
+	public void printSQL() {
+		String url = "jdbc:sqlserver://FAT\\SQLEXPRESS:1433;databaseName=Example1;user=sa;password=phat12112002;encrypt=false";
+		Connection cn;
+		try {
+			cn = DriverManager.getConnection(url);
+			String sql = "SELECT * FROM Employee";
+			Statement st = cn.createStatement();
+			ResultSet result = st.executeQuery(sql);
+			while(result.next()) {
+				Employee e = new Employee();
+				e.setId(result.getString("E_id"));
+				e.setName(result.getString("name"));
+				e.setGender(result.getString("gender"));
+				e.setDay(result.getInt("Bday"));
+				e.setMonth(result.getInt("Bmonth"));
+				e.setYear(result.getInt("Byear"));
+				e.setAddress(result.getString("Eaddress"));
+				e.setPhone(result.getString("phone"));
+				e.setWorking_hour(result.getInt("working_hour"));
+				e.setBonus(result.getFloat("bonus"));
+				e.setMinus(result.getFloat("minus"));
+				e.setCoefficients(result.getFloat("coefficients"));
+				e.setSalary(result.getFloat("salary"));
+				e.setExperience(result.getFloat("experience"));
+				e.setPosition(result.getString("position"));
+				v.add(e);
+			}
+			cn.close();
+		} catch (SQLException e) {
+			System.out.println("Oh no");
+			e.printStackTrace();
+		}
+	}
 };
 class Customer extends EPerson{
 	private int point;
@@ -174,8 +218,8 @@ class Customer extends EPerson{
 public class Conect2sql {
 	public static void main(String[] args) {
 		Employees e = new Employees();
-		e.read();
-		e.writeSQL();
+		e.printSQL();
+		e.print();
 	}
 
 }
