@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.Vector;
 
 class Employee extends EPerson{
 	private int working_hour;
@@ -70,10 +71,10 @@ class Employee extends EPerson{
 	public String getPosition() {return position;}
 }
 class Employees{
-	private Employee[] e;
+	private Vector<Employee>v;
 	public Employees() {
 		super();
-		e = new Employee[2];
+		v = new Vector<Employee>();
 	}
 	public void read() {
 		String url = "D:\\JavaBasic\\first\\src\\oop\\employee";
@@ -82,23 +83,24 @@ class Employees{
 			fileInputStream = new FileInputStream(url);
 			Scanner sc = new Scanner(fileInputStream);
 			for(int i = 0; i < 2; i++) {
-				e[i]= new Employee();
-				e[i].setId(sc.nextLine());
-				e[i].setName(sc.nextLine());
-				e[i].setGender(sc.nextLine());
-				e[i].setAddress(sc.nextLine());
-				e[i].setPhone(sc.nextLine());
-				e[i].setPosition(sc.nextLine());
-				e[i].setDay(sc.nextInt());
-				e[i].setMonth(sc.nextInt());
-				e[i].setYear(sc.nextInt());
-				e[i].setWorking_hour(sc.nextInt());
-				e[i].setBonus(sc.nextFloat());
-				e[i].setMinus(sc.nextFloat());
-				e[i].setCoefficients(sc.nextFloat());
-				e[i].setSalary(sc.nextFloat());
-				e[i].setExperience(sc.nextFloat());
+				Employee e = new Employee();
+				e.setId(sc.nextLine());
+				e.setName(sc.nextLine());
+				e.setGender(sc.nextLine());
+				e.setAddress(sc.nextLine());
+				e.setPhone(sc.nextLine());
+				e.setPosition(sc.nextLine());
+				e.setDay(sc.nextInt());
+				e.setMonth(sc.nextInt());
+				e.setYear(sc.nextInt());
+				e.setWorking_hour(sc.nextInt());
+				e.setBonus(sc.nextFloat());
+				e.setMinus(sc.nextFloat());
+				e.setCoefficients(sc.nextFloat());
+				e.setSalary(sc.nextFloat());
+				e.setExperience(sc.nextFloat());
 				String c = sc.nextLine();//catch "enter"
+				v.add(e);
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Oh no\n");
@@ -115,21 +117,21 @@ class Employees{
 			String sql = "INSERT INTO EMPLOYEE VALUES"
 					+"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement st = cn.prepareStatement(sql);
-			st.setString(1, e[i].getId());
-			st.setString(2, e[i].getName());
-			st.setString(3, e[i].getGender());
-			st.setInt(4, e[i].getDay());
-			st.setInt(5, e[i].getMonth());
-			st.setInt(6, e[i].getYear());
-			st.setString(7, e[i].getAddress());
-			st.setString(8, e[i].getPhone());
-			st.setInt(9, e[i].getWorking_hour());
-			st.setFloat(10, e[i].getBonus());
-			st.setFloat(11, e[i].getMinus());
-			st.setFloat(12, e[i].getCoefficients());
-			st.setFloat(13, e[i].getSalary());
-			st.setFloat(14, e[i].getExperience());
-			st.setString(15, e[i].getPosition());
+			st.setString(1, v.elementAt(i).getId());
+			st.setString(2, v.elementAt(i).getName());
+			st.setString(3, v.elementAt(i).getGender());
+			st.setInt(4, v.elementAt(i).getDay());
+			st.setInt(5, v.elementAt(i).getMonth());
+			st.setInt(6, v.elementAt(i).getYear());
+			st.setString(7, v.elementAt(i).getAddress());
+			st.setString(8, v.elementAt(i).getPhone());
+			st.setInt(9, v.elementAt(i).getWorking_hour());
+			st.setFloat(10, v.elementAt(i).getBonus());
+			st.setFloat(11, v.elementAt(i).getMinus());
+			st.setFloat(12, v.elementAt(i).getCoefficients());
+			st.setFloat(13, v.elementAt(i).getSalary());
+			st.setFloat(14, v.elementAt(i).getExperience());
+			st.setString(15, v.elementAt(i).getPosition());
 			int rows = st.executeUpdate();
 				if(rows > 0) {
 					System.out.print("row has been inserted\n");
